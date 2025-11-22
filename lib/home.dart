@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
               MaterialPageRoute(builder: (context) => DetailsScreen()),
               );
             },
-          child: Text("Click to go to Detailscreen")),
+          child: Text("Click to go to Detailscreen", style: Theme.of(context).textTheme.displayLarge)),
         ),
       ),
     );

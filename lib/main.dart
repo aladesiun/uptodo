@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:uptodo/details.dart';
 import 'package:uptodo/home.dart';
+import 'package:uptodo/onboarding.dart';
 
 void main() {
   runApp(
@@ -19,15 +20,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'Lato',
+        textTheme: TextTheme(
+          displayLarge: TextStyle(
+            fontFamily: 'Lato',
+            fontSize: 15
+          ),
+          titleLarge: TextStyle(
+            fontFamily: 'Lato'
+          )
+        )
       ),
+  
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      initialRoute: '/',
+      initialRoute: '/onboarding',
       routes: {
         '/': (context) => HomeScreen(),
         '/details': (context) => DetailsScreen(),
+        '/onboarding': (context) => OnboardingScreen(),
       },
 
     );
