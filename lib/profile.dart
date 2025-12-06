@@ -1,7 +1,193 @@
 import 'package:flutter/material.dart';
+import 'package:uptodo/auth/widgets/customTextField.dart';
 
-class ProfileContent extends StatelessWidget {
+class ProfileContent extends StatefulWidget {
   const ProfileContent({super.key});
+
+  @override
+  State<ProfileContent> createState() => _ProfileContentState();
+}
+
+class _ProfileContentState extends State<ProfileContent> {
+  String _accountName = 'Martha Hays';
+
+  void _showChangeNameDialog() {
+    final TextEditingController nameController = TextEditingController(
+      text: _accountName,
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xFF363636),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Change account name',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Lato',
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Divider(color: Color(0xFF979797), thickness: 1),
+                const SizedBox(height: 10),
+                BuildTextField(
+                  controller: nameController,
+                  hintText: 'Enter your name',
+                  labelText: '',
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Color(0xFF8875FF),
+                            fontSize: 16,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _accountName = nameController.text;
+                          });
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF8875FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showChangePasswordDialog() {
+    final TextEditingController oldPasswordController = TextEditingController();
+    final TextEditingController newPasswordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xFF363636),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Center(
+                  child: Text(
+                    'Change account Password',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Divider(color: Color(0xFF979797), thickness: 1),
+                const SizedBox(height: 10),
+                BuildTextField(
+                  controller: oldPasswordController,
+                  hintText: '••••••••••••',
+                  labelText: 'Enter old password',
+                  isObscureText: true,
+                ),
+                const SizedBox(height: 20),
+                BuildTextField(
+                  controller: newPasswordController,
+                  hintText: '••••••••••••',
+                  labelText: 'Enter new password',
+                  isObscureText: true,
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Color(0xFF8875FF),
+                            fontSize: 16,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Handle password change logic here
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF8875FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +218,8 @@ class ProfileContent extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Martha Hays',
-                style: TextStyle(
+                _accountName,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
@@ -63,13 +249,13 @@ class ProfileContent extends StatelessWidget {
               _buildMenuItem(
                 icon: Icons.person_outline,
                 title: 'Change account name',
-                onTap: () {},
+                onTap: _showChangeNameDialog,
               ),
               const SizedBox(height: 12),
               _buildMenuItem(
                 icon: Icons.key_outlined,
                 title: 'Change account password',
-                onTap: () {},
+                onTap: _showChangePasswordDialog,
               ),
               const SizedBox(height: 12),
               _buildMenuItem(
