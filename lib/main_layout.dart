@@ -4,7 +4,7 @@ import 'package:uptodo/profile.dart';
 
 class MainLayout extends StatefulWidget {
   final int initialIndex;
-  
+
   const MainLayout({super.key, this.initialIndex = 0});
 
   @override
@@ -20,19 +20,13 @@ class _MainLayoutState extends State<MainLayout> {
     _currentIndex = widget.initialIndex;
   }
 
-  final List<Widget> _screens = [
-    const HomeContent(),
-    const ProfileContent(),
-  ];
+  final List<Widget> _screens = [const HomeContent(), const ProfileContent()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -113,4 +107,3 @@ class _MainLayoutState extends State<MainLayout> {
     );
   }
 }
-
