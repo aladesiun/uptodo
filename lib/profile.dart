@@ -1,177 +1,130 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileContent extends StatelessWidget {
+  const ProfileContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                // Title
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Lato',
-                  ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              // Title
+              const Text(
+                'Profile',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Lato',
                 ),
-                const SizedBox(height: 24),
-                // Profile Image
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFF8875FF),
-                      width: 2,
-                    ),
-                  ),
-                  child: ClipOval(
-                    child: Container(
-                      color: const Color(0xFF1D1D1D),
-                      child: const Icon(
-                        Icons.person,
-                        size: 60,
-                        color: Color(0xFF535353),
-                      ),
+              ),
+              const SizedBox(height: 24),
+              // Profile Image
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFF8875FF), width: 2),
+                ),
+                child: ClipOval(
+                  child: Container(
+                    color: const Color(0xFF1D1D1D),
+                    child: const Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Color(0xFF535353),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                // User Name
-                const Text(
-                  'Martha Hays',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Lato',
-                  ),
+              ),
+              const SizedBox(height: 16),
+              // User Name
+              const Text(
+                'Martha Hays',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Lato',
                 ),
-                const SizedBox(height: 20),
-                // Stats Row
-                Row(
-                  children: [
-                    Expanded(child: _buildStatButton('10 Task left')),
-                    const SizedBox(width: 16),
-                    Expanded(child: _buildStatButton('5 Task done')),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                // Settings Section
-                _buildSectionTitle('Settings'),
-                const SizedBox(height: 16),
-                _buildMenuItem(
-                  icon: Icons.settings_outlined,
-                  title: 'App Settings',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 24),
-                // Account Section
-                _buildSectionTitle('Account'),
-                const SizedBox(height: 16),
-                _buildMenuItem(
-                  icon: Icons.person_outline,
-                  title: 'Change account name',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.key_outlined,
-                  title: 'Change account password',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.camera_alt_outlined,
-                  title: 'Change account Image',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 24),
-                // Uptodo Section
-                _buildSectionTitle('Uptodo'),
-                const SizedBox(height: 16),
-                _buildMenuItem(
-                  icon: Icons.grid_view_rounded,
-                  title: 'About US',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.info_outline,
-                  title: 'FAQ',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.flash_on_outlined,
-                  title: 'Help & Feedback',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.thumb_up_outlined,
-                  title: 'Support US',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 20),
-                // Logout Button
-                _buildLogoutButton(context),
-                const SizedBox(height: 100), // Space for bottom nav
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              // Stats Row
+              Row(
+                children: [
+                  Expanded(child: _buildStatButton('10 Task left')),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildStatButton('5 Task done')),
+                ],
+              ),
+              const SizedBox(height: 32),
+              // Settings Section
+              _buildSectionTitle('Settings'),
+              const SizedBox(height: 16),
+              _buildMenuItem(
+                icon: Icons.settings_outlined,
+                title: 'App Settings',
+                onTap: () {},
+              ),
+              const SizedBox(height: 24),
+              // Account Section
+              _buildSectionTitle('Account'),
+              const SizedBox(height: 16),
+              _buildMenuItem(
+                icon: Icons.person_outline,
+                title: 'Change account name',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              _buildMenuItem(
+                icon: Icons.key_outlined,
+                title: 'Change account password',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              _buildMenuItem(
+                icon: Icons.camera_alt_outlined,
+                title: 'Change account Image',
+                onTap: () {},
+              ),
+              const SizedBox(height: 24),
+              // Uptodo Section
+              _buildSectionTitle('Uptodo'),
+              const SizedBox(height: 16),
+              _buildMenuItem(
+                icon: Icons.grid_view_rounded,
+                title: 'About US',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              _buildMenuItem(
+                icon: Icons.info_outline,
+                title: 'FAQ',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              _buildMenuItem(
+                icon: Icons.flash_on_outlined,
+                title: 'Help & Feedback',
+                onTap: () {},
+              ),
+              const SizedBox(height: 12),
+              _buildMenuItem(
+                icon: Icons.thumb_up_outlined,
+                title: 'Support US',
+                onTap: () {},
+              ),
+              const SizedBox(height: 20),
+              // Logout Button
+              _buildLogoutButton(context),
+              const SizedBox(height: 100), // Space for bottom nav
+            ],
           ),
-        ),
-      ),
-      // Floating Action Button
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Add new task
-        },
-        backgroundColor: const Color(0xFF8875FF),
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 32),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // Bottom Navigation Bar
-      bottomNavigationBar: Container(
-        height: 80,
-        decoration: const BoxDecoration(
-          color: Color(0xFF363636),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(
-              icon: Icons.home_outlined,
-              label: 'Index',
-              isSelected: false,
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/');
-              },
-            ),
-            const SizedBox(width: 60), // Space for FAB
-            _buildNavItem(
-              icon: Icons.person_outline,
-              label: 'Profile',
-              isSelected: true,
-              onTap: () {},
-            ),
-          ],
         ),
       ),
     );
@@ -325,36 +278,6 @@ class ProfileScreen extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-
-  Widget _buildNavItem({
-    required IconData icon,
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: isSelected ? Colors.white : const Color(0xFF979797),
-            size: 28,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.white : const Color(0xFF979797),
-              fontSize: 12,
-              fontFamily: 'Lato',
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

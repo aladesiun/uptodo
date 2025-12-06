@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:uptodo/auth/login.dart';
 import 'package:uptodo/auth/register.dart';
 import 'package:uptodo/details.dart';
-import 'package:uptodo/home.dart';
+import 'package:uptodo/main_layout.dart';
 import 'package:uptodo/onboarding.dart';
-import 'package:uptodo/profile.dart';
 
 void main() {
   runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
@@ -33,12 +32,12 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       initialRoute: '/onboarding',
       routes: {
-        '/': (context) => HomeScreen(),
+        '/': (context) => const MainLayout(),
         '/details': (context) => DetailsScreen(),
         '/onboarding': (context) => OnboardingScreen(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
-        '/profile': (context) => ProfileScreen(),
+        '/profile': (context) => const MainLayout(initialIndex: 1),
       },
     );
   }
