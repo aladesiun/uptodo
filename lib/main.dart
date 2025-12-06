@@ -1,15 +1,14 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:uptodo/auth/login.dart';
+import 'package:uptodo/auth/register.dart';
 import 'package:uptodo/details.dart';
 import 'package:uptodo/home.dart';
 import 'package:uptodo/onboarding.dart';
+import 'package:uptodo/profile.dart';
 
 void main() {
-  runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context)=> const MyApp())
-  );
+  runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,16 +24,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         fontFamily: 'Lato',
         textTheme: TextTheme(
-          displayLarge: TextStyle(
-            fontFamily: 'Lato',
-            fontSize: 15
-          ),
-          titleLarge: TextStyle(
-            fontFamily: 'Lato'
-          )
-        )
+          displayLarge: TextStyle(fontFamily: 'Lato', fontSize: 15),
+          titleLarge: TextStyle(fontFamily: 'Lato'),
+        ),
       ),
-  
+
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       initialRoute: '/onboarding',
@@ -42,8 +36,10 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         '/details': (context) => DetailsScreen(),
         '/onboarding': (context) => OnboardingScreen(),
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/profile': (context) => ProfileScreen(),
       },
-
     );
   }
 }

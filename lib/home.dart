@@ -8,18 +8,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Home Screenr"),
-        ),
+        appBar: AppBar(title: Text("Home Screenr")),
         body: Center(
           child: ElevatedButton(
-            onPressed: (){
-              Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DetailsScreen()),
-              );
+            onPressed: () {
+              Navigator.pushNamed(context, '/profile');
             },
-          child: Text("Click to go to Detailscreen", style: Theme.of(context).textTheme.displayLarge)),
+            child: Text(
+              "Click to go to Profile screen",
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+          ),
         ),
       ),
     );

@@ -50,11 +50,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _navigateToHome() {
-    Navigator.pushReplacementNamed(context, '/');
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   void _nextPage() {
-    if (_currentPage < _pages.length -1) {
+    if (_currentPage < _pages.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeIn,
@@ -140,21 +140,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xff8875FF),
                           foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)
-                          )
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                         child: Text(
-                          _currentPage == _pages.length-1 ? "GET STARTED" : 'NEXT',
+                          _currentPage == _pages.length - 1
+                              ? "GET STARTED"
+                              : 'NEXT',
                           style: TextStyle(
-                              color:Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Lato',
-                            ),
-                        )
-                      )
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
