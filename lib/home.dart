@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:uptodo/details.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeContent extends StatelessWidget {
+  const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Home Screenr")),
+        backgroundColor: Colors.black,
         body: Center(
           child: ElevatedButton(
             onPressed: () {

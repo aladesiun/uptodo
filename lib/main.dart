@@ -4,6 +4,7 @@ import 'package:uptodo/auth/login.dart';
 import 'package:uptodo/auth/register.dart';
 import 'package:uptodo/details.dart';
 import 'package:uptodo/home.dart';
+import 'package:uptodo/main_layout.dart';
 import 'package:uptodo/onboarding.dart';
 import 'package:uptodo/profile.dart';
 
@@ -33,12 +34,12 @@ class MyApp extends StatelessWidget {
       builder: DevicePreview.appBuilder,
       initialRoute: '/onboarding',
       routes: {
-        '/': (context) => HomeScreen(),
+        '/': (context) => MainLayout(initialIndex: 0),
         '/details': (context) => DetailsScreen(),
         '/onboarding': (context) => OnboardingScreen(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
-        '/profile': (context) => ProfileScreen(),
+        '/profile': (context) => MainLayout(initialIndex: 1),
       },
     );
   }
