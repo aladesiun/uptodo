@@ -1,26 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:uptodo/details.dart';
-
-class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-            child: Text(
-              "Click to go to Profile screen",
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+// Export all home-related widgets
+export 'package:uptodo/home/home_content.dart';
+export 'package:uptodo/home/add_task_bottom_sheet.dart';
+export 'package:uptodo/home/widgets/date_picker_dialog.dart'
+    show CustomDatePickerDialog;
+export 'package:uptodo/home/widgets/time_picker_dialog.dart'
+    show CustomTimePickerDialog;
+export 'package:uptodo/home/widgets/priority_picker_dialog.dart';
+export 'package:uptodo/home/widgets/category_picker_dialog.dart';
+export 'package:uptodo/home/create_category_page.dart';

@@ -56,7 +56,14 @@ class _MainLayoutState extends State<MainLayout> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => const AddTaskBottomSheet(),
+          );
+        },
         backgroundColor: const Color(0xFF8875FF),
         shape: const CircleBorder(),
         child: const Icon(Icons.add, color: Colors.white, size: 30),
