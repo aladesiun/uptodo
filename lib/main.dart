@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:uptodo/auth/login.dart';
 import 'package:uptodo/auth/register.dart';
 import 'package:uptodo/details.dart';
-import 'package:uptodo/home.dart';
 import 'package:uptodo/main_layout.dart';
 import 'package:uptodo/onboarding.dart';
 import 'package:uptodo/profile.dart';
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
 
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      initialRoute: '/onboarding',
+      initialRoute: '/',
       routes: {
         '/': (context) => MainLayout(initialIndex: 0),
         '/details': (context) => DetailsScreen(),

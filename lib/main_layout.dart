@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uptodo/home.dart';
+import 'package:uptodo/home/home_content.dart';
+import 'package:uptodo/home/add_task_bottom_sheet.dart';
 import 'package:uptodo/profile.dart';
 
 class MainLayout extends StatefulWidget {
