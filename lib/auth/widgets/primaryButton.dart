@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class PrimaryButton extends StatelessWidget {
   final void Function() onPressed;
   final String title;
+  final bool disabled;
   const PrimaryButton({
     super.key,
     required this.onPressed,
     required this.title,
+    this.disabled = false,
   });
 
   @override
@@ -15,9 +17,11 @@ class PrimaryButton extends StatelessWidget {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {
-          onPressed();
-        },
+        onPressed: disabled
+            ? null
+            : () {
+                onPressed();
+              },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF8875FF),
           foregroundColor: Colors.white,

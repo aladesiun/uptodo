@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:uptodo/auth/core/auth_controller.dart';
 import 'package:uptodo/auth/widgets/customTextField.dart';
 import 'package:uptodo/auth/widgets/primaryButton.dart';
 
@@ -11,16 +13,32 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _fullNameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _emailController =
+      TextEditingController(text: 'aladesiuntope@gmail.com');
+  final _fullNameController = TextEditingController(text: 'Aladesiun tope');
+  final _passwordController = TextEditingController(text: '654321');
+  final _confirmPasswordController = TextEditingController(text: '654321');
+  final AuthController _authController = Get.find();
 
   bool _obsurePasword = true;
   void _handleRegister() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacementNamed(context, '/login');
+    if (!_formKey.currentState!.validate()) {
+      return;
     }
+    if (_passwordController.text != _confirmPasswordController.text) {
+      Get.snackbar(
+        'Error',
+        'Passwords do not match',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+    _authController.registerUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+        confirmPassword: _confirmPasswordController.text,
+        fullName: _fullNameController.text);
   }
 
   @override
@@ -131,7 +149,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 70),
-                PrimaryButton(onPressed: _handleRegister, title: "Register"),
+                Obx(
+                  () => PrimaryButton(
+                      onPressed: _handleRegister,
+                      title: _authController.isLoading.value
+                          ? "please wait..."
+                          : "Register"),
+                ),
                 const SizedBox(height: 34),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

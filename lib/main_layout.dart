@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uptodo/home/home_content.dart';
 import 'package:uptodo/home/add_task_bottom_sheet.dart';
 import 'package:uptodo/profile.dart';
@@ -15,13 +17,22 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   late int _currentIndex;
 
+  final List<Widget> _screens = [const HomeContent(), const ProfileContent()];
+  late SharedPreferences _prefs;
+  void _checkAuth() async {
+    _prefs = await SharedPreferences.getInstance();
+    if (_prefs.getString('auth_token') == null ||
+        _prefs.getString('user_profile') == null) {
+      Get.offAllNamed('/login');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
+    _checkAuth();
   }
-
-  final List<Widget> _screens = [const HomeContent(), const ProfileContent()];
 
   @override
   Widget build(BuildContext context) {

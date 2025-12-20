@@ -1,5 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:uptodo/auth/core/auth_controller.dart';
 import 'package:uptodo/auth/login.dart';
 import 'package:uptodo/auth/register.dart';
 import 'package:uptodo/details.dart';
@@ -8,7 +10,7 @@ import 'package:uptodo/onboarding.dart';
 import 'package:uptodo/profile.dart';
 
 void main() {
-  runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
+  runApp(DevicePreview(enabled: false, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -28,10 +30,12 @@ class MyApp extends StatelessWidget {
           titleLarge: TextStyle(fontFamily: 'Lato'),
         ),
       ),
-
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       initialRoute: '/',
+      initialBinding: BindingsBuilder(() {
+        Get.put(AuthController());
+      }),
       routes: {
         '/': (context) => MainLayout(initialIndex: 0),
         '/details': (context) => DetailsScreen(),

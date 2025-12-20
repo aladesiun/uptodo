@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:uptodo/auth/core/auth_controller.dart';
 import 'package:uptodo/auth/widgets/customTextField.dart';
 import 'package:uptodo/auth/widgets/primaryButton.dart';
 
@@ -11,15 +13,18 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
+  final _emailController =
+      TextEditingController(text: 'aladesiuntope@gmail.com');
+  final _passwordController = TextEditingController(text: '654321');
+  final AuthController _authController = Get.find();
   bool _obsurePasword = true;
 
   void _handleLogin() {
-    print("hello");
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacementNamed(context, '/');
+      _authController.loginUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
     }
   }
 
@@ -52,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 50),
-
                 BuildTextField(
                   labelText: "Email Address",
                   hintText: "Email Address",
@@ -87,7 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 70),
-                PrimaryButton(onPressed: _handleLogin, title: "Login"),
+                Obx(() => PrimaryButton(
+                    onPressed: _handleLogin,
+                    disabled: _authController.isLoading.value,
+                    title: _authController.isLoading.value
+                        ? "please wait..."
+                        : "Login")),
                 const SizedBox(height: 34),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
