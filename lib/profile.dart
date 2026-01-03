@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uptodo/auth/core/auth_controller.dart';
 import 'package:uptodo/auth/widgets/customTextField.dart';
 import 'package:uptodo/auth/widgets/primaryButton.dart';
 
@@ -15,7 +16,7 @@ class ProfileContent extends StatefulWidget {
 
 class _ProfileContentState extends State<ProfileContent> {
   Map<String, dynamic> _userProfile = {};
-
+   final AuthController authController = Get.find<AuthController>();
   void _showChangeNameDialog() {
     final TextEditingController nameController = TextEditingController(
       text: _userProfile['fullname'] ?? "",
@@ -69,15 +70,15 @@ class _ProfileContentState extends State<ProfileContent> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: PrimaryButton(
+                      child:Obx(() => PrimaryButton(
                         onPressed: () {
-                          setState(() {
-                            _userProfile['fullname'] = nameController.text;
-                          });
-                          Navigator.pop(context);
+                         if(!authController.isLoading.value){
+                            _handleUpdateName(nameController, context);
+                          }
                         },
-                        title: 'Edit',
-                      ),
+                        title: authController.isLoading.value ? 'Updating...':'Edit',
+                        disabled: authController.isLoading.value,
+                      )),
                     ),
                   ],
                 ),
@@ -152,8 +153,7 @@ class _ProfileContentState extends State<ProfileContent> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle password change logic here
-                          Navigator.pop(context);
+                          _handleChangePassword(oldPasswordController, newPasswordController, context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF8875FF),
@@ -162,14 +162,14 @@ class _ProfileContentState extends State<ProfileContent> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                        child: const Text(
-                          'Edit',
+                        child: Obx(() => Text(
+                          authController.isLoading.value ? 'Changing...':'Edit',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontFamily: 'Lato',
                           ),
-                        ),
+                        )),
                       ),
                     ),
                   ],
@@ -195,6 +195,68 @@ class _ProfileContentState extends State<ProfileContent> {
     }
   }
 
+  Future<void> _handleUpdateName(TextEditingController nameController, BuildContext context) async {
+    if(nameController.text.isEmpty){
+      Get.snackbar(
+        'Error',
+        'Name is required',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+    final success = await authController.updateProfile(fullName: nameController.text);
+    if(success){
+      _getUserProfile();
+      if(context.mounted){
+        Navigator.pop(context);
+      }
+    }
+  }
+  Future<void> _handleChangePassword(TextEditingController oldPasswordController, 
+  TextEditingController newPasswordController, BuildContext context
+  ) async {
+     if (oldPasswordController.text.trim().isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Old password cannot be empty',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    if (newPasswordController.text.trim().isEmpty) {
+      Get.snackbar(
+        'Error',
+        'New password cannot be empty',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+
+    if (newPasswordController.text.trim().length < 6) {
+      Get.snackbar(
+        'Error',
+        'New password must be at least 6 characters',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+    final success = await authController.changePassword(
+      oldPassword: oldPasswordController.text.trim(),
+      newPassword: newPasswordController.text.trim(),
+    );
+
+    if(success){
+      if(context.mounted){
+        Navigator.pop(context);
+      }
+    }
+  }
   @override
   void initState() {
     super.initState();
