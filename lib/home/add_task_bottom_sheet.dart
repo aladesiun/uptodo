@@ -31,6 +31,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   void _showPriorityPicker(BuildContext context) {
     showDialog(
       context: context,
+      fullscreenDialog: true,
       builder: (context) => const PriorityPickerDialog(),
     );
   }

@@ -135,12 +135,12 @@ class _CategoryPickerDialogState extends State<CategoryPickerDialog> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(category['icon'], color: Colors.black, size: 32),
+            Icon(category['icon'], color: Colors.white, size: 32),
             const SizedBox(height: 8),
             Text(
               category['name'],
               style: const TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Lato',
@@ -166,12 +166,12 @@ class _CategoryPickerDialogState extends State<CategoryPickerDialog> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add, color: Colors.black, size: 32),
+            const Icon(Icons.add, color: Colors.white, size: 32),
             const SizedBox(height: 8),
             const Text(
               'Create New',
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Lato',

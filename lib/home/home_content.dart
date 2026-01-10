@@ -1,7 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uptodo/home/core/category_controller.dart';
+import 'package:uptodo/home/core/task_controller.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
@@ -14,45 +18,9 @@ class _HomeContentState extends State<HomeContent> {
   bool _todayExpanded = true;
   bool _completedExpanded = true;
   Map<String, dynamic> _userProfile = {};
+  late final TaskController _taskController;
+  late final CategoryController _categoryController;
 
-  // Sample tasks data
-  final List<Map<String, dynamic>> _todayTasks = [
-    // {
-    //   'title': 'Do Math Homework',
-    //   'time': '16:45',
-    //   'category': 'University',
-    //   'categoryColor': const Color(0xFF4A90E2),
-    //   'categoryIcon': Icons.school,
-    //   'priority': 1,
-    // },
-    // {
-    //   'title': 'Tack out dogs',
-    //   'time': '18:20',
-    //   'category': 'Home',
-    //   'categoryColor': const Color(0xFFFF6B6B),
-    //   'categoryIcon': Icons.home,
-    //   'priority': 2,
-    // },
-    // {
-    //   'title': 'Business meeting with CEO',
-    //   'time': '08:15',
-    //   'category': 'Work',
-    //   'categoryColor': const Color(0xFFFFD93D),
-    //   'categoryIcon': Icons.business,
-    //   'priority': 3,
-    // },
-  ];
-
-  final List<Map<String, dynamic>> _completedTasks = [
-    // {
-    //   'title': 'Buy Grocery',
-    //   'time': '16:45',
-    //   'category': 'Home',
-    //   'categoryColor': const Color(0xFFFF6B6B),
-    //   'categoryIcon': Icons.home,
-    //   'priority': 1,
-    // },
-  ];
   void _getUserProfile() async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
     var userProfile = _prefs.getString('user_profile');
@@ -65,10 +33,19 @@ class _HomeContentState extends State<HomeContent> {
       });
     }
   }
-
+  void _fetchTasks() async {
+    await _categoryController.fetchCategories();
+    await _taskController.fetchTasks();
+  }
+  @override
   void initState() {
     super.initState();
     _getUserProfile();
+
+    _categoryController = Get.put(CategoryController());
+    _taskController = Get.put(TaskController());
+
+    _fetchTasks();
   }
 
   @override
@@ -98,31 +75,38 @@ class _HomeContentState extends State<HomeContent> {
                       fontFamily: 'Lato',
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage:
-                        NetworkImage(_userProfile['avatarUrl'] ?? ""),
-                  ),
+                  // CircleAvatar(
+                  //   radius: 20,
+                  //   backgroundImage: NetworkImage(_userProfile['avatarUrl'] ?? ""),
+                  // ),
                 ],
               ),
             ),
             const SizedBox(height: 40),
             // Task List or Empty State
             Expanded(
-              child: _todayTasks.isEmpty && _completedTasks.isEmpty
-                  ? _buildEmptyState()
-                  : ListView(
+              child: Obx((){
+                if(_taskController.isLoading.value){
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final pendingTasks = _taskController.pendingTasks;
+                final completedTasks = _taskController.completedTasks;
+
+                if(pendingTasks.isEmpty && completedTasks.isEmpty){
+                  return _buildEmptyState();
+                }
+                return ListView(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       children: [
                         // Today Section
-                        _buildSectionHeader('Today', _todayExpanded, () {
+                        _buildSectionHeader('Pending', _todayExpanded, () {
                           setState(() {
                             _todayExpanded = !_todayExpanded;
                           });
                         }),
                         if (_todayExpanded) ...[
                           const SizedBox(height: 12),
-                          ..._todayTasks.map((task) => _buildTaskCard(task)),
+                          ...pendingTasks.map((task) => _buildTaskCard(task)),
                         ],
                         const SizedBox(height: 24),
                         // Completed Section
@@ -137,12 +121,13 @@ class _HomeContentState extends State<HomeContent> {
                         ),
                         if (_completedExpanded) ...[
                           const SizedBox(height: 12),
-                          ..._completedTasks.map(
+                          ...completedTasks.map(
                             (task) => _buildTaskCard(task),
                           ),
                         ],
                       ],
-                    ),
+                    );
+              })
             ),
           ],
         ),
@@ -211,6 +196,7 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Widget _buildTaskCard(Map<String, dynamic> task) {
+    final bool isCompleted = task['status'] == 'completed';
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -220,15 +206,22 @@ class _HomeContentState extends State<HomeContent> {
       ),
       child: Row(
         children: [
-          // Checkbox
-          Container(
+          GestureDetector(
+            onTap: (){
+              _taskController.updateTaskStatus(task['id'], isCompleted ? 'pending' : 'completed');
+            },
+            child:  Container(
             width: 24,
             height: 24,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
+              color: isCompleted ? const Color(0xFF8875FF) : Colors.transparent,
+              border: Border.all(color: isCompleted ? const Color(0xFF8875FF) : Colors.white, width: 2),
             ),
+            child: isCompleted ? const Icon(Icons.check, color: Colors.white, size: 16) : null,
           ),
+          ),
+         
           const SizedBox(width: 12),
           // Task details
           Expanded(
