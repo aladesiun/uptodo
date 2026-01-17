@@ -10,7 +10,9 @@ class TaskController extends GetxController {
   var isLoading = false.obs;
   var tasks = <Map<String, dynamic>>[].obs;
 
-  Future<List<Map<String, dynamic>>> fetchTasks({bool? showLoader = true}) async {
+  Future<List<Map<String, dynamic>>> fetchTasks({
+    bool? showLoader = true,
+  }) async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
     final String? tokenString = _prefs.getString('auth_token');
 
@@ -143,7 +145,11 @@ class TaskController extends GetxController {
       'https://codeafrica-uptodo-backend.onrender.com/tasks/$taskId',
     );
     try {
-      tasks.value = tasks.map((task) => task['id'] == taskId ? {...task, 'status': status} : task).toList();
+      tasks.value = tasks
+          .map(
+            (task) => task['id'] == taskId ? {...task, 'status': status} : task,
+          )
+          .toList();
       final token = jsonDecode(tokenString);
       final response = await http.put(
         url,
@@ -172,4 +178,58 @@ class TaskController extends GetxController {
       return false;
     }
   }
+
+  Future<bool> deleteTask(String taskId) async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    final String? tokenString = _prefs.getString('auth_token');
+
+    if (tokenString == null) {
+      Get.snackbar(
+        'Error',
+        'Authentication token not found',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false;
+    }
+
+    final url = Uri.parse(
+      'https://codeafrica-uptodo-backend.onrender.com/tasks/$taskId',
+    );
+
+    try {
+      final token = jsonDecode(tokenString);
+      final response = await http.delete(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      var responseBody = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        await fetchTasks(showLoader: false);
+        Get.snackbar(
+          'Success',
+          'Task deleted successfully',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        return true;
+      } else {
+        Get.snackbar(
+          'Error',
+          responseBody['message'] ?? 'Failed to delete task',
+        );
+        return false;
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Something went wrong while deleting task');
+      return false;
+    }
+  }
+
 }
+
